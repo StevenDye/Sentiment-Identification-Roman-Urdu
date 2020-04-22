@@ -84,30 +84,10 @@ X_test_combined = np.concatenate((X_test.drop(columns=['text']),
 
 # Scale data
 scaler = StandardScaler()  # with_mean=False Sparse matrixices need with_mean=False
-#X_train_scale = scaler.fit_transform(X_train_combined)
-#X_test_scale = scaler.transform(X_test_combined)
-
-X_train_scale = scaler.fit_transform(X_train_combined)   
+X_train_scale = scaler.fit_transform(X_train_combined)
 X_test_scale = scaler.transform(X_test_combined)
 
 # Create sythetic data to balance outputs
 # WARNING: takes about 25 minutes on your personal computer to create the synthetic data
-#smt = SMOTE()
-#X_train_smote, y_train = smt.fit_sample(X_train_scale, y_train)
-
-def make_meta_features(df):
-    """Make new features from the sparse array in order to obtain new information"""
-    # word count
-    df['word_count'] = df['text'].apply(lambda x: len(str(x).split()))
-    # unique_word_count
-    df['unique_word_count'] = df['text'].apply(lambda x: len(set(str(x).split())))
-    # stop_word_count
-    df['stop_word_count'] = df['text'].apply(lambda x: len([w for w in str(x).lower().split() if w in STOPWORDS]))
-    # mean_word_length
-    df['mean_word_length'] = df['text'].apply(lambda x: np.mean([len(w) for w in str(x).split()]))
-    # char_count
-    df['char_count'] = df['text'].apply(lambda x: len(str(x)))
-    # Some text are just the space character, which gives NaN values for mean_word_length
-    df = df.fillna(0)  # Fill NaNs
-    
-    return df
+smt = SMOTE()
+X_train_smote, y_train = smt.fit_sample(X_train_scale, y_train)
