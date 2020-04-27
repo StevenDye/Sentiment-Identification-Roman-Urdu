@@ -19,3 +19,4 @@ STOPWORDS = ['ai', 'ayi', 'hy', 'hai', 'main', 'ki', 'tha', 'koi', 'ko', 'sy',
 
 # Add punctuation to stopwords list
 STOPWORDS += list(string.punctuation)
+STOPWORDS += ["''", '""', '...', '``']
