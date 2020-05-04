@@ -2,6 +2,8 @@
 
 import matplotlib.pyplot as plt
 from sklearn import metrics
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import numpy as np
 
@@ -46,6 +48,22 @@ def meta_feature_distribution(train_df, test_df):
                              fontsize=13)
 
     plt.show()
+    
+
+def evaluate_model(X_train, y_train, X_test, y_test, model):
+    """This function displays model scores"""
+    model.fit(X_train, y_train)
+    preds = model.predict(X_test)
+    scores = cross_val_score(model, X_train, y_train, cv=3, scoring="accuracy")
+    diff = abs(scores.mean() - model.score(X_test, y_test))
+    SD = diff / scores.std()
+    
+    print(f"Training Score:{model.score(X_train, y_train)}")
+    print(f"Cross V Score: {scores.mean()} +/- {scores.std()}")
+    print(f"Testing Score: {model.score(X_test, y_test)}")
+    print(f"Cross & Test Diff: {diff}")
+    print(f"Standard Deviations Away: {SD}")
+    print(confusion_matrix(y_test, preds))
 
 
 def confusion_matrix_heat_map(clf, X_test, y_test):

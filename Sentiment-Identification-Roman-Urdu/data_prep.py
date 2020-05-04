@@ -3,7 +3,6 @@
 import re
 import numpy as np
 import pandas as pd
-from imblearn.over_sampling import SMOTE
 from nltk import word_tokenize, FreqDist
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
@@ -39,6 +38,7 @@ df = pd.read_csv('data/Roman Urdu DataSet.csv',
 df = df.drop(columns=['third'])  # Drop empty column
 df = df.dropna()  # Drop empty rows
 df['sentiment'] = df['sentiment'].replace('Neative', 'Negative')  # Fix typo
+df = df.drop_duplicates()
 
 # Set target and features
 X = df.drop(columns=['sentiment'])
@@ -92,7 +92,3 @@ vectorizer = TfidfVectorizer()
 
 tf_idf_data_train = vectorizer.fit_transform(corpus)
 tf_idf_data_test = vectorizer.transform(X_test['text'])
-
-# balance targets
-smt = SMOTE()
-tf_idf_data_train, y_train = smt.fit_sample(tf_idf_data_train, y_train)
