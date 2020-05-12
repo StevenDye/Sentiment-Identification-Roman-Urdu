@@ -8,6 +8,8 @@ Collaborators: Steven Dye
 Summary of files:
  - data
      - Roamn Urdu DataSet.csv: raw datafile
+ - results
+   - Report.pdf: Report of final results
  - src
    - data_prep.py: Prepare the raw data for analysis
    - stopwords.py: List of stopwords used for analysis
